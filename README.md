@@ -1,2 +1,4 @@
-# data-visualization
-Data visualization projects.
+# Data Visualization
+Some of my data visualization projects.
+
+
