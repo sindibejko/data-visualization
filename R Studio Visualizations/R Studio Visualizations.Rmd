@@ -1,0 +1,78 @@
+# Libraries
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(Rtsne)
+library(reshape2)
+```
+
+# Q1: Diamonds Dataset
+
+Among all numerical variables of the diamonds dataset, which one has the strongest correlation with the price?
+
+```{r}
+diamonds
+
+cor_price <- diamonds %>% select(carat, depth, table, price, x, y)
+cor(cor_price) ["price", ]
+```
+
+[Answer 1]{.underline}: Carat
+
+# Q2: Tree growth
+
+Produce a plot using the built-in **Orange** dataset that tracks the growth of five orange trees as a function of their age (in days). The plot should look at the circumference of these trees throughout their age - for each of the five orange trees.
+
+```{r}
+orange <- Orange
+orange
+
+growth <- ggplot(data = orange, aes(x = age, y = circumference, color=Tree)) + geom_path() +geom_point()
+growth + labs(title = "Orange tree growth")
+```
+
+# Q3: Nested Plots
+
+Produce a visualization using the built-in **Diamonds** dataset, that graphs the depth and price for all 5 cuts of diamonds (fair, good, very good, premium, and ideal).
+
+```{r}
+ggplot(diamonds, aes(x=depth, y=price, color = as.factor(cut))) + geom_point() + facet_grid(rows=vars(cut))      
+```
+
+# Q4: Raster Plots
+
+Create a raster plot of the built-in dataset **volcano**.
+
+```{r}
+volcano <- melt(volcano)
+
+ggplot(volcano, aes(x=Var1, y=Var2)) + geom_raster(aes(fill=value))
+```
+
+# Q5: Iris
+
+Produce a visualizatiion of the count and sepal length of the three different species in the built-in **Iris** dataset.
+
+```{r}
+iris <- as.data.frame(iris)
+
+ggplot(iris, aes(x = Sepal.Length, fill=as.factor(Species))) +
+  geom_dotplot(binwidth = 0.1) + coord_flip()
+```
+
+# Q6: Dimensionality Reduction
+
+The builtin dataset **state.x77** contains information about all 50 US states. Do a 2D PCA projection of them and answer: what state is most similar to Mississippi?
+
+```{r}
+state.x77
+
+pca <- as.data.frame(prcomp(state.x77, scale = TRUE) $x)
+pca
+
+ggplot(pca, aes(x = PC1, y = PC2, label = rownames(pca))) + geom_point() + geom_text(size = 2)
+```
+
+[Answer]{.underline}: South Carolina
